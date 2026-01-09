@@ -667,6 +667,58 @@
       display: none !important;
     }
   </style>
+  <script id="swap-injection-and-technical">
+  (function(){
+    function swap(){
+      try {
+        var grid = document.querySelector('#portfolio .engineering-portfolio-grid');
+        if(!grid) return;
+        var inj = grid.querySelector('.portfolio-project[data-project="injection-molding"]');
+        var tech = grid.querySelector('.portfolio-project[data-project="technical-drawing"]');
+        if(!inj || !tech) return;
+        var rel = inj.compareDocumentPosition(tech);
+        var injBeforeTech = (rel & Node.DOCUMENT_POSITION_FOLLOWING) === Node.DOCUMENT_POSITION_FOLLOWING;
+        if (injBeforeTech) return;
+        grid.insertBefore(inj, tech);
+      } catch(e){}
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', swap, {once:true});
+    } else {
+      swap();
+    }
+  })();
+  </script>
+  <script id="force-technical-drawing-open">
+  (function(){
+    function bind(){
+      try {
+        var cards = document.querySelectorAll('#portfolio .portfolio-project[data-project="technical-drawing"]');
+        if (!cards || !cards.length) return;
+        cards.forEach(function(card){
+          card.addEventListener('click', function(e){
+            try {
+              e.preventDefault();
+              e.stopPropagation();
+            } catch(_){}
+            if (typeof window.openGallery === 'function') {
+              window.openGallery('technical-drawing');
+            } else if (typeof openGallery === 'function') {
+              openGallery('technical-drawing');
+            }
+          }, { passive: false });
+          var clickable = card.querySelector('.project-image-container, .project-overlay, img');
+          if (clickable) clickable.style.cursor = 'pointer';
+        });
+      } catch(e){}
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bind, { once: true });
+    } else {
+      bind();
+    }
+  })();
+  </script>
   <style id="pc-chassis-gallery-pc-row">
     /* PC-only: force Chassis Gallery images into a single horizontal row */
     @media (min-width: 901px) {
