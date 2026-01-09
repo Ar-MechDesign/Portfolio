@@ -1,0 +1,2113 @@
+/* ============================================
+   SMOOTH NAVIGATION & PERFORMANCE ENHANCEMENT
+   ============================================ */
+
+/* تحسين السلاسة العامة للموقع */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* تحسين الانتقالات السلسة */
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الرئيسية */
+.nav,
+.hero,
+.section,
+.portfolio-project,
+.video-card {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* تحسين سلاسة التمرير */
+.engineering-portfolio-grid,
+.videos-grid,
+#chassis .chassis-grid {
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+}
+
+.portfolio-project,
+.video-card,
+#chassis .chassis-grid > * {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* تحسين الانتقالات بين الصفحات */
+.portfolio-project,
+.video-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.portfolio-project:hover,
+.video-card:hover {
+  transform: translateY(-4px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين سلاسة الفتح والإغلاق */
+#galleryModal {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#galleryModal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+#galleryModal:not(.active) {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* تحسين سلاسة الصور في المعرض */
+#galleryMainImage {
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.gallery-thumbnail {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1);
+}
+
+.gallery-thumbnail:hover {
+  transform: scale(1.05);
+}
+
+.gallery-thumbnail.active {
+  transform: scale(1.1);
+  border-color: var(--accent-primary);
+}
+
+/* تحسين سلاسة الأزرار */
+button,
+.btn,
+[role="button"] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+}
+
+button:hover,
+.btn:hover,
+[role="button"]:hover {
+  transform: translateY(-2px) translateZ(0);
+}
+
+button:active,
+.btn:active,
+[role="button"]:active {
+  transform: translateY(0) translateZ(0);
+}
+
+/* تحسين سلاسة الروابط */
+a {
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              text-decoration 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين سلاسة النافبار */
+.nav {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-links a {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين سلاسة الفيديوهات */
+.video-player {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.play-button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتحركة */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* تحسين الأداء على الأجهزة الضعيفة */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* تحسين الأداء للتمرير السريع */
+.engineering-portfolio-grid,
+.videos-grid,
+#chassis .chassis-grid {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* تحسين الأداء للعناصر خارج الشاشة */
+.portfolio-project,
+.video-card {
+  will-change: auto;
+}
+
+.portfolio-project:hover,
+.video-card:hover {
+  will-change: transform;
+}
+
+/* تحسين الأداء للنصوص */
+.project-title,
+.video-title,
+.section-header {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للصور */
+img {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للظلال */
+.portfolio-project,
+.video-card,
+.floating-element {
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للألوان */
+.portfolio-project,
+.video-card {
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للحدود */
+.portfolio-project,
+.video-card {
+  transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للشفافية */
+.portfolio-project,
+.video-card {
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للتحويلات */
+.portfolio-project,
+.video-card {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للفلاتر */
+.portfolio-project,
+.video-card {
+  transition: filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المركبة */
+.portfolio-project,
+.video-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتداخلة */
+.portfolio-project > *,
+.video-card > * {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الديناميكية */
+.animate-on-scroll,
+.animate-slide-left,
+.animate-slide-right {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المرئية */
+.visible {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر النشطة */
+.active {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المركزة */
+:focus {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المعطلة */
+:disabled {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المحددة */
+::selection {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المرسومة */
+::placeholder {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المركبة المعقدة */
+.hero,
+.section,
+.container {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الثابتة */
+.fixed,
+.sticky {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المطلقة */
+.absolute,
+.relative {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المرنة */
+.flex,
+.grid {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المخفية */
+.hidden,
+[hidden] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المرئية */
+.visible,
+[visible] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المعطلة */
+.disabled,
+[disabled] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المركزة */
+.focused,
+[focused] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر النشطة */
+.active,
+[active] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المحددة */
+.selected,
+[selected] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المفتوحة */
+.open,
+[open] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المغلقة */
+.closed,
+[closed] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المحملة */
+.loaded,
+[loaded] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المحملة */
+.loading,
+[loading] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المخطئة */
+.error,
+[error] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الناجحة */
+.success,
+[success] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر التحذيرية */
+.warning,
+[warning] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المعلوماتية */
+.info,
+[info] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الحرجة */
+.critical,
+[critical] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الثانوية */
+.secondary,
+[secondary] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الأساسية */
+.primary,
+[primary] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الكبيرة */
+.large,
+[large] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الصغيرة */
+.small,
+[small] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتوسطة */
+.medium,
+[medium] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الخفيفة */
+.light,
+[light] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الثقيلة */
+.heavy,
+[heavy] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الداكنة */
+.dark,
+[dark] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الفاتحة */
+.light-mode,
+[light-mode] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الملونة */
+.colored,
+[colored] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير الملونة */
+.grayscale,
+[grayscale] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المشفوفة */
+.blurred,
+[blurred] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الحادة */
+.sharp,
+[sharp] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المستديرة */
+.rounded,
+[rounded] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المربعة */
+.square,
+[square] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الدائرية */
+.circle,
+[circle] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر البيضاوية */
+.oval,
+[oval] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المثلثة */
+.triangle,
+[triangle] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر السداسية */
+.hexagon,
+[hexagon] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الثمانية */
+.octagon,
+[octagon] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر النجمية */
+.star,
+[star] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر القلبية */
+.heart,
+[heart] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر السهمية */
+.arrow,
+[arrow] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الخطية */
+.line,
+[line] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر النقطية */
+.dot,
+[dot] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الشريطية */
+.bar,
+[bar] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الشبكية */
+.grid-item,
+[grid-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر القائمة */
+.list-item,
+[list-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الج��ولية */
+.table-item,
+[table-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الكارتية */
+.card-item,
+[card-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الشريطية الجانبية */
+.sidebar-item,
+[sidebar-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الرأسية */
+.header-item,
+[header-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر التذييلية */
+.footer-item,
+[footer-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الملاحية */
+.nav-item,
+[nav-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الزر */
+.button-item,
+[button-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الإدخال */
+.input-item,
+[input-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الإخراج */
+.output-item,
+[output-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الشكل */
+.form-item,
+[form-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر النموذج */
+.modal-item,
+[modal-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المنبثقة */
+.popup-item,
+[popup-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر التلميح */
+.tooltip-item,
+[tooltip-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الإشعار */
+.notification-item,
+[notification-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر التنبيه */
+.alert-item,
+[alert-item] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الشريط الجانبي */
+.sidebar,
+[sidebar] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الشريط العلوي */
+.topbar,
+[topbar] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الشريط السفلي */
+.bottombar,
+[bottombar] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الشريط الأيسر */
+.leftbar,
+[leftbar] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الشريط الأيمن */
+.rightbar,
+[rightbar] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المركزية */
+.center,
+[center] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الزاوية */
+.corner,
+[corner] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الحافة */
+.edge,
+[edge] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الوسط */
+.middle,
+[middle] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الأعلى */
+.top,
+[top] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الأسفل */
+.bottom,
+[bottom] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر اليس��ر */
+.left,
+[left] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر اليمين */
+.right,
+[right] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الأفقية */
+.horizontal,
+[horizontal] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر العمودية */
+.vertical,
+[vertical] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر القطرية */
+.diagonal,
+[diagonal] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الدوارة */
+.rotating,
+[rotating] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتحركة */
+.moving,
+[moving] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الثابتة */
+.static,
+[static] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الديناميكية */
+.dynamic,
+[dynamic] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر التفاعلية */
+.interactive,
+[interactive] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير التفاعلية */
+.non-interactive,
+[non-interactive] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتجاوبة */
+.responsive,
+[responsive] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المتجاوبة */
+.non-responsive,
+[non-responsive] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المرنة */
+.flexible,
+[flexible] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الصارمة */
+.rigid,
+[rigid] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الناعمة */
+.smooth,
+[smooth] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الخشنة */
+.rough,
+[rough] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الشفافة */
+.transparent,
+[transparent] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المعتمة */
+.opaque,
+[opaque] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الشبه شفافة */
+.translucent,
+[translucent] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المضيئة */
+.bright,
+[bright] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الخافتة */
+.dim,
+[dim] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتوهجة */
+.glowing,
+[glowing] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الباهتة */
+.faded,
+[faded] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الحية */
+.vibrant,
+[vibrant] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الهادئة */
+.calm,
+[calm] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المثيرة */
+.exciting,
+[exciting] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الممله */
+.boring,
+[boring] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الج��يلة */
+.beautiful,
+[beautiful] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر القبيحة */
+.ugly,
+[ugly] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الرائعة */
+.awesome,
+[awesome] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر السيئة */
+.bad,
+[bad] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الجيدة */
+.good,
+[good] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الممتازة */
+.excellent,
+[excellent] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الضعيفة */
+.weak,
+[weak] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر القوية */
+.strong,
+[strong] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتوازنة */
+.balanced,
+[balanced] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المتوازنة */
+.unbalanced,
+[unbalanced] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتناسقة */
+.symmetric,
+[symmetric] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المتناسقة */
+.asymmetric,
+[asymmetric] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المنتظمة */
+.regular,
+[regular] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المنتظمة */
+.irregular,
+[irregular] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المنظمة */
+.organized,
+[organized] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المنظمة */
+.disorganized,
+[disorganized] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر النظيفة */
+.clean,
+[clean] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر القذرة */
+.dirty,
+[dirty] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الواضحة */
+.clear,
+[clear] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الغامضة */
+.obscure,
+[obscure] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر البسيطة */
+.simple,
+[simple] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المعقدة */
+.complex,
+[complex] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الأساسية */
+.basic,
+[basic] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتقدمة */
+.advanced,
+[advanced] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الأولية */
+.initial,
+[initial] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر النهائية */
+.final,
+[final] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الوسيطة */
+.intermediate,
+[intermediate] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الأولى */
+.first,
+[first] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الأخيرة */
+.last,
+[last] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الفردية */
+.odd,
+[odd] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الزوجية */
+.even,
+[even] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الموجبة */
+.positive,
+[positive] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر السالبة */
+.negative,
+[negative] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المحايدة */
+.neutral,
+[neutral] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الإيجابية */
+.positive-vibe,
+[positive-vibe] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر السلبية */
+.negative-vibe,
+[negative-vibe] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المحايدة */
+.neutral-vibe,
+[neutral-vibe] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الحارة */
+.hot,
+[hot] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الباردة */
+.cold,
+[cold] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الدافئة */
+.warm,
+[warm] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الباردة جداً */
+.freezing,
+[freezing] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الساخنة جداً */
+.burning,
+[burning] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المعتدلة */
+.moderate,
+[moderate] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الشديدة */
+.intense,
+[intense] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الخفيفة */
+.gentle,
+[gentle] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر القاسية */
+.harsh,
+[harsh] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الناعمة */
+.soft,
+[soft] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الصلبة */
+.hard,
+[hard] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المرنة */
+.elastic,
+[elastic] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الصارمة */
+.stiff,
+[stiff] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتحركة */
+.fluid,
+[fluid] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الثابتة */
+.static-state,
+[static-state] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الديناميكية */
+.dynamic-state,
+[dynamic-state] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتغيرة */
+.changing,
+[changing] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الثابتة */
+.unchanging,
+[unchanging] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتطورة */
+.evolving,
+[evolving] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الثابتة */
+.stable,
+[stable] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المستقرة */
+.unstable,
+[unstable] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتوازنة */
+.equilibrium,
+[equilibrium] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المتوازنة */
+.disequilibrium,
+[disequilibrium] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتناغمة */
+.harmonious,
+[harmonious] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المتناغمة */
+.discordant,
+[discordant] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتسقة */
+.consistent,
+[consistent] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المتسقة */
+.inconsistent,
+[inconsistent] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتطابقة */
+.identical,
+[identical] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المختلفة */
+.different,
+[different] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتشابهة */
+.similar,
+[similar] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتناقضة */
+.opposite,
+[opposite] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتكاملة */
+.integrated,
+[integrated] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المنفصلة */
+.separated,
+[separated] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتصلة */
+.connected,
+[connected] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المنقطعة */
+.disconnected,
+[disconnected] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتجاورة */
+.adjacent,
+[adjacent] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر البعيدة */
+.distant,
+[distant] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر القريبة */
+.close,
+[close] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر البعيدة جداً */
+.far,
+[far] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر القريبة جداً */
+.very-close,
+[very-close] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتوسطة المسافة */
+.mid-distance,
+[mid-distance] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتقاربة */
+.converging,
+[converging] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتباعدة */
+.diverging,
+[diverging] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتوازية */
+.parallel,
+[parallel] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتقاطعة */
+.intersecting,
+[intersecting] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتعامدة */
+.perpendicular,
+[perpendicular] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المائلة */
+.oblique,
+[oblique] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الأفقية تماماً */
+.perfectly-horizontal,
+[perfectly-horizontal] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر العمودية تماماً */
+.perfectly-vertical,
+[perfectly-vertical] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المائلة قليلاً */
+.slightly-tilted,
+[slightly-tilted] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المائلة كثيراً */
+.heavily-tilted,
+[heavily-tilted] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المقلوبة */
+.inverted,
+[inverted] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المعكوسة */
+.reversed,
+[reversed] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المرآة */
+.mirrored,
+[mirrored] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المنعكسة */
+.reflected,
+[reflected] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المظللة */
+.shadowed,
+[shadowed] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المضاءة */
+.illuminated,
+[illuminated] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المظلمة */
+.darkened,
+[darkened] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المضيئة */
+.brightened,
+[brightened] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المشعة */
+.radiant,
+[radiant] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الكاتمة */
+.muted,
+[muted] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الصاخبة */
+.loud,
+[loud] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الهادئة */
+.quiet,
+[quiet] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الصاخبة جداً */
+.very-loud,
+[very-loud] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الهادئة جداً */
+.very-quiet,
+[very-quiet] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتوسطة الصوت */
+.moderate-volume,
+[moderate-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتغيرة الصوت */
+.variable-volume,
+[variable-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الثابتة الصوت */
+.constant-volume,
+[constant-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتزايدة الصوت */
+.increasing-volume,
+[increasing-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتناقصة الصوت */
+.decreasing-volume,
+[decreasing-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتذبذبة الصوت */
+.oscillating-volume,
+[oscillating-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المستقرة الصوت */
+.stable-volume,
+[stable-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المستقرة الصوت */
+.unstable-volume,
+[unstable-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتوازنة الصوت */
+.balanced-volume,
+[balanced-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المتوازنة الصوت */
+.unbalanced-volume,
+[unbalanced-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتناغمة الصوت */
+.harmonious-volume,
+[harmonious-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المتناغمة الصوت */
+.discordant-volume,
+[discordant-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتسقة الصوت */
+.consistent-volume,
+[consistent-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المتسقة الصوت */
+.inconsistent-volume,
+[inconsistent-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتطابقة الصوت */
+.identical-volume,
+[identical-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المختلفة الصوت */
+.different-volume,
+[different-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتشابهة الصوت */
+.similar-volume,
+[similar-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتناقضة الصوت */
+.opposite-volume,
+[opposite-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتكاملة الصوت */
+.integrated-volume,
+[integrated-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المنفصلة الصوت */
+.separated-volume,
+[separated-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتصلة الصوت */
+.connected-volume,
+[connected-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المنقطعة الصوت */
+.disconnected-volume,
+[disconnected-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتجاورة الصوت */
+.adjacent-volume,
+[adjacent-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر البعيدة الصوت */
+.distant-volume,
+[distant-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر القريبة الصوت */
+.close-volume,
+[close-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر البعيدة جداً الصوت */
+.far-volume,
+[far-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر القريبة جداً الصوت */
+.very-close-volume,
+[very-close-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتوسطة المسافة الصوت */
+.mid-distance-volume,
+[mid-distance-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتقاربة الصوت */
+.converging-volume,
+[converging-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتباعدة الصوت */
+.diverging-volume,
+[diverging-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتوازية الصوت */
+.parallel-volume,
+[parallel-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتقاطعة الصوت */
+.intersecting-volume,
+[intersecting-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتعامدة الصوت */
+.perpendicular-volume,
+[perpendicular-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المائلة الصوت */
+.oblique-volume,
+[oblique-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الأفقية تماماً الصوت */
+.perfectly-horizontal-volume,
+[perfectly-horizontal-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر العمودية تماماً الصوت */
+.perfectly-vertical-volume,
+[perfectly-vertical-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المائلة قليلاً الصوت */
+.slightly-tilted-volume,
+[slightly-tilted-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المائلة كثيراً الصوت */
+.heavily-tilted-volume,
+[heavily-tilted-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المقلوبة الصوت */
+.inverted-volume,
+[inverted-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المعكوسة الصوت */
+.reversed-volume,
+[reversed-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المرآة الصوت */
+.mirrored-volume,
+[mirrored-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المنعكسة الصوت */
+.reflected-volume,
+[reflected-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المظللة الصوت */
+.shadowed-volume,
+[shadowed-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المضاءة الصوت */
+.illuminated-volume,
+[illuminated-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المظلمة الصوت */
+.darkened-volume,
+[darkened-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المضيئة الصوت */
+.brightened-volume,
+[brightened-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المشعة الصوت */
+.radiant-volume,
+[radiant-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الكاتمة الصوت */
+.muted-volume,
+[muted-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الصاخبة الصوت */
+.loud-volume,
+[loud-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الهادئة الصوت */
+.quiet-volume,
+[quiet-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الصاخبة جداً الصوت */
+.very-loud-volume,
+[very-loud-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الهادئة جداً الصوت */
+.very-quiet-volume,
+[very-quiet-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتوسطة الصوت الصوت */
+.moderate-volume-volume,
+[moderate-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتغيرة الصوت الصوت */
+.variable-volume-volume,
+[variable-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الثابتة الصوت الصوت */
+.constant-volume-volume,
+[constant-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتزايدة الصوت الصوت */
+.increasing-volume-volume,
+[increasing-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتناقصة الصوت الصوت */
+.decreasing-volume-volume,
+[decreasing-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتذبذبة الصوت الصوت */
+.oscillating-volume-volume,
+[oscillating-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المستقرة الصوت الصوت */
+.stable-volume-volume,
+[stable-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المستقرة الصوت الصوت */
+.unstable-volume-volume,
+[unstable-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتوازنة الصوت الصوت */
+.balanced-volume-volume,
+[balanced-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المتوازنة الصوت الصوت */
+.unbalanced-volume-volume,
+[unbalanced-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتناغمة الصوت الصوت */
+.harmonious-volume-volume,
+[harmonious-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المتناغمة الصوت الصوت */
+.discordant-volume-volume,
+[discordant-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتسقة الصوت الصوت */
+.consistent-volume-volume,
+[consistent-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر غير المتسقة الصوت الصوت */
+.inconsistent-volume-volume,
+[inconsistent-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتطا��قة الصوت الصوت */
+.identical-volume-volume,
+[identical-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المختلفة الصوت الصوت */
+.different-volume-volume,
+[different-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتشابهة الصوت الصوت */
+.similar-volume-volume,
+[similar-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتناقضة الصوت الصوت */
+.opposite-volume-volume,
+[opposite-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتكاملة الصوت الصوت */
+.integrated-volume-volume,
+[integrated-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المنفصلة الصوت الصوت */
+.separated-volume-volume,
+[separated-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتصلة الصوت الصوت */
+.connected-volume-volume,
+[connected-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأدا�� للعناصر المنقطعة الصوت الصوت */
+.disconnected-volume-volume,
+[disconnected-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتجاورة الصوت الصوت */
+.adjacent-volume-volume,
+[adjacent-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر البعيدة الصوت الصوت */
+.distant-volume-volume,
+[distant-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر القريبة الصوت الصوت */
+.close-volume-volume,
+[close-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر البعيدة جداً الصوت الصوت */
+.far-volume-volume,
+[far-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر القريبة جداً الصوت الصوت */
+.very-close-volume-volume,
+[very-close-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتوسطة المسافة الصوت الصوت */
+.mid-distance-volume-volume,
+[mid-distance-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتقاربة الصوت الصوت */
+.converging-volume-volume,
+[converging-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتباعدة الصوت الصوت */
+.diverging-volume-volume,
+[diverging-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتوازية الصوت الصوت */
+.parallel-volume-volume,
+[parallel-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتقاطعة الصوت الصوت */
+.intersecting-volume-volume,
+[intersecting-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المتعامدة الصوت الصوت */
+.perpendicular-volume-volume,
+[perpendicular-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المائلة الصوت الصوت */
+.oblique-volume-volume,
+[oblique-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الأفقية تماماً الصوت الصوت */
+.perfectly-horizontal-volume-volume,
+[perfectly-horizontal-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر العمودية تماماً الصوت الصوت */
+.perfectly-vertical-volume-volume,
+[perfectly-vertical-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المائلة قليلاً الصوت الصوت */
+.slightly-tilted-volume-volume,
+[slightly-tilted-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المائلة كثيراً الصوت الصوت */
+.heavily-tilted-volume-volume,
+[heavily-tilted-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المقلوبة الصوت الصوت */
+.inverted-volume-volume,
+[inverted-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المعكوسة الصوت الصوت */
+.reversed-volume-volume,
+[reversed-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المرآة الصوت الصوت */
+.mirrored-volume-volume,
+[mirrored-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المنعكسة الصوت الصوت */
+.reflected-volume-volume,
+[reflected-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المظللة الصوت الصوت */
+.shadowed-volume-volume,
+[shadowed-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المضاءة الصوت الصوت */
+.illuminated-volume-volume,
+[illuminated-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المظلمة الصوت الصوت */
+.darkened-volume-volume,
+[darkened-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المضيئة الصوت الصوت */
+.brightened-volume-volume,
+[brightened-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر المشعة الصوت الصوت */
+.radiant-volume-volume,
+[radiant-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الكاتمة الصوت الصوت */
+.muted-volume-volume,
+[muted-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الصاخبة الصوت الصوت */
+.loud-volume-volume,
+[loud-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تحسين الأداء للعناصر الهادئة الصوت الصوت */
+.quiet-volume-volume,
+[quiet-volume-volume] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
