@@ -7093,7 +7093,32 @@
           </div>
         </div>
 
-        <!-- Technical Drawing -->
+        <!-- Injection Molding Design -->
+        <div class="portfolio-project animate-slide-right" data-project="injection-molding">
+          <div class="project-image-container">
+            <img src="Photos/Injection Molding Design/1.jpg" alt="Injection Molding Design" class="project-main-image">
+            <div class="project-overlay">
+              <div class="project-icon">🔧</div>
+              <h3 class="project-title">Injection Molding Design</h3>
+              <p class="project-subtitle">Mold Design & Analysis</p>
+              <div class="project-badge">10 Images</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wall Mounted Motor Holder -->
+        <div class="portfolio-project animate-slide-left" data-project="wall-mounted-motor">
+          <div class="project-image-container">
+            <img src="Photos/Wall Mounted Motor Holder/1.png" alt="Wall Mounted Motor Holder" class="project-main-image">
+            <div class="project-overlay">
+              <div class="project-icon">⚙️</div>
+              <h3 class="project-title">Wall Mounted Motor Holder</h3>
+              <p class="project-subtitle">Motor Mounting Solution</p>
+              <div class="project-badge">9 Images</div>
+            </div>
+          </div>
+        </div>
+
         <!-- Sheet Metal - Seating Chairs -->
         <div class="portfolio-project animate-on-scroll" data-project="seating-chairs">
           <div class="project-image-container">
@@ -7106,14 +7131,12 @@
           </div>
         </div>
 
-        <div class="portfolio-project animate-slide-right" data-project="drawing">
-          <div class="project-image-container">
-            <img src="Photos/Drawing/1.webp" alt="Technical Drawing" class="project-main-image">
-            <div class="project-overlay">
+                  <div class="project-image-container">
+                        <div class="project-overlay">
               <div class="project-icon">📝</div>
               <h3 class="project-title">Technical Drawing</h3>
               <p class="project-subtitle">Engineering Documentation</p>
-              <div class="project-badge">12 Images</div>
+              <div class="project-badge">0 Images</div>
             </div>
           </div>
         </div>
@@ -8021,26 +8044,17 @@
           'Photos/Sheet Metal -Seating chairs/W.jpg'
         ]
       },
-      'drawing': {
-        title: 'Technical Drawing',
-        images: [
-          'Photos/Drawing/1.jpg',
-          'Photos/Drawing/2.jpg',
-          'Photos/Drawing/3.jpg',
-          'Photos/Drawing/4.jpg',
-          'Photos/Drawing/5.jpg',
-          'Photos/Drawing/6.jpg',
-          'Photos/Drawing/7.jpg',
-          'Photos/Drawing/8.jpg',
-          'Photos/Drawing/9.jpg',
-          'Photos/Drawing/10.jpg',
-          'Photos/Drawing/11.jpg',
-          'Photos/Drawing/12.jpg'
-        ]
+                                // Force clean, ordered, non-duplicated list (1..14)
+                              return out;
+        })()
       }
     };
 
+    /*
+    /*
     // Gallery functionality
+    // NOTE: A second (duplicate) gallery system existed in this file and caused duplicated images.
+    // The implementation below is kept as the single source of truth.
     let currentGallery = [];
     let currentImageIndex = 0;
 
@@ -8287,6 +8301,9 @@
       }, 2000); // Wait 2 seconds after page load
     }
 
+    */
+
+    */
     // Portfolio Gallery System
     const portfolioData = {
       'chassis-gallery': {
@@ -8405,6 +8422,34 @@
 
     function createThumbnails() {
       const thumbnails = document.getElementById('galleryThumbnails');
+      // --- Gallery safety: de-duplicate + numeric sort (fixes Technical Drawing ordering/duplicates) ---
+      function sanitizeGallery(list){
+        try {
+          if (!Array.isArray(list)) return [];
+          const seen = new Set();
+          const out = [];
+          for (const v of list) {
+            if (!v) continue;
+            const s = String(v);
+            if (seen.has(s)) continue;
+            seen.add(s);
+            out.push(s);
+          }
+          const isDrawing = out.some((src) => /Photos\/Drawing\//.test(src));
+          if (isDrawing) {
+            out.sort((a,b) => {
+              const na = parseInt((a.match(/Drawing\/(\d+)/)||[])[1]||'0',10);
+              const nb = parseInt((b.match(/Drawing\/(\d+)/)||[])[1]||'0',10);
+              return na-nb;
+            });
+          }
+          return out;
+        } catch(e){ return list || []; }
+      }
+
+      // Guard to avoid duplicate event wiring if multiple gallery scripts exist
+      if (!window.__portfolioGalleryInitDone) window.__portfolioGalleryInitDone = true;
+
       thumbnails.innerHTML = '';
       
       currentGallery.forEach((image, index) => {

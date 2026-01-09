@@ -119,21 +119,33 @@ const portfolioData = {
       'Photos/Solidwork Champion/3-optimized.jpg'
     ]
   },
-  'drawing': {
-    title: 'Technical Drawing',
+    'injection-molding': {
+    title: 'Injection Molding Design',
     images: [
-      'Photos/Drawing/1.webp',
-      'Photos/Drawing/2.webp',
-      'Photos/Drawing/3.webp',
-      'Photos/Drawing/4.webp',
-      'Photos/Drawing/5.webp',
-      'Photos/Drawing/6.webp',
-      'Photos/Drawing/7.webp',
-      'Photos/Drawing/8.webp',
-      'Photos/Drawing/9.webp',
-      'Photos/Drawing/10.webp',
-      'Photos/Drawing/11.webp',
-      'Photos/Drawing/12.webp'
+      'Photos/Injection Molding Design/1.jpg',
+      'Photos/Injection Molding Design/2.jpg',
+      'Photos/Injection Molding Design/3.jpg',
+      'Photos/Injection Molding Design/4.jpg',
+      'Photos/Injection Molding Design/5.jpg',
+      'Photos/Injection Molding Design/6.jpg',
+      'Photos/Injection Molding Design/7.jpg',
+      'Photos/Injection Molding Design/8.jpg',
+      'Photos/Injection Molding Design/9.png',
+      'Photos/Injection Molding Design/10.png'
+    ]
+  },
+  'wall-mounted-motor': {
+    title: 'Wall Mounted Motor Holder',
+    images: [
+      'Photos/Wall Mounted Motor Holder/1.png',
+      'Photos/Wall Mounted Motor Holder/2.png',
+      'Photos/Wall Mounted Motor Holder/3.png',
+      'Photos/Wall Mounted Motor Holder/4.png',
+      'Photos/Wall Mounted Motor Holder/5.png',
+      'Photos/Wall Mounted Motor Holder/6.png',
+      'Photos/Wall Mounted Motor Holder/7.png',
+      'Photos/Wall Mounted Motor Holder/8.png',
+      'Photos/Wall Mounted Motor Holder/9.png'
     ]
   }
 };
