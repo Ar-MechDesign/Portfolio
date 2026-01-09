@@ -147,6 +147,25 @@ const portfolioData = {
       'Photos/Wall Mounted Motor Holder/8.png',
       'Photos/Wall Mounted Motor Holder/9.png'
     ]
+  },
+  'technical-drawing': {
+    title: 'Technical Drawing',
+    images: [
+      'Photos/Technical Drawing/1.webp',
+      'Photos/Technical Drawing/2.webp',
+      'Photos/Technical Drawing/3.webp',
+      'Photos/Technical Drawing/4.webp',
+      'Photos/Technical Drawing/5.webp',
+      'Photos/Technical Drawing/6.webp',
+      'Photos/Technical Drawing/7.webp',
+      'Photos/Technical Drawing/8.webp',
+      'Photos/Technical Drawing/9.webp',
+      'Photos/Technical Drawing/10.webp',
+      'Photos/Technical Drawing/11.webp',
+      'Photos/Technical Drawing/12.webp',
+      'Photos/Technical Drawing/13.webp',
+      'Photos/Technical Drawing/14.webp'
+    ]
   }
 };
 

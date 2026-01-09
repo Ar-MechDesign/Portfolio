@@ -661,6 +661,12 @@
       }
     }
   </style>
+  <style id="technical-drawing-dup-fix">
+    /* Hide accidental duplicate of Technical Drawing card when two identical blocks are adjacent */
+    .engineering-portfolio-grid .portfolio-project[data-project="technical-drawing"] + .portfolio-project[data-project="technical-drawing"] {
+      display: none !important;
+    }
+  </style>
   <style id="pc-chassis-gallery-pc-row">
     /* PC-only: force Chassis Gallery images into a single horizontal row */
     @media (min-width: 901px) {
@@ -6978,6 +6984,25 @@
       <!-- Portfolio Grid -->
       <div class="engineering-portfolio-grid">
         <!-- Chassis Gallery (Unified) -->
+        <!-- Technical Drawing -->
+        <div class="portfolio-project animate-on-scroll" data-project="technical-drawing">
+          <div class="project-image-container">
+            <img src="Photos/Technical Drawing/1.webp" alt="Technical Drawing" class="project-main-image">
+            <div class="project-overlay">
+              <span class="view-project">View Gallery</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technical Drawing -->
+        <div class="portfolio-project animate-on-scroll" data-project="technical-drawing">
+          <div class="project-image-container">
+            <img src="Photos/Technical Drawing/1.webp" alt="Technical Drawing" class="project-main-image">
+            <div class="project-overlay">
+              <span class="view-project">View Gallery</span>
+            </div>
+          </div>
+        </div>
         <div class="portfolio-project animate-on-scroll" data-project="chassis-gallery">
           <div class="project-image-container">
             <img src="Formula Student chassis.webp" alt="Chassis Gallery" class="project-main-image">
