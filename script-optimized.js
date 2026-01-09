@@ -216,8 +216,28 @@ function cacheDOMElements() {
 // ============================================
 
 function openGallery(projectKey) {
+  // FIXED: Add comprehensive validation
+  if (!projectKey || typeof projectKey !== 'string') {
+    console.error('Invalid project key:', projectKey);
+    return;
+  }
+  
   const project = portfolioData[projectKey];
-  if (!project) return;
+  if (!project) {
+    console.error('Project not found:', projectKey);
+    return;
+  }
+  
+  if (!project.images || !Array.isArray(project.images) || project.images.length === 0) {
+    console.error('Project has no images:', projectKey);
+    return;
+  }
+
+  // Validate DOM elements exist
+  if (!DOM.galleryModal || !DOM.galleryTitle) {
+    console.error('Gallery modal elements not found');
+    return;
+  }
 
   currentGallery = project.images;
   currentImageIndex = 0;
@@ -310,33 +330,72 @@ function closeGallery() {
 // ============================================
 
 function initPortfolioHandlers() {
-  // Event delegation for better performance
+  // Event delegation for better performance - FIXED: Prevent event bubbling issues
   document.addEventListener('click', (e) => {
     const project = e.target.closest('.portfolio-project');
-    if (project) {
+    if (project && !DOM.galleryModal.classList.contains('active')) {
       const projectKey = project.getAttribute('data-project');
-      openGallery(projectKey);
+      if (projectKey && portfolioData[projectKey]) {
+        e.preventDefault();
+        e.stopPropagation();
+        openGallery(projectKey);
+      }
     }
-  });
+  }, false);
 
-  // Gallery controls
-  DOM.galleryClose.addEventListener('click', closeGallery);
-  DOM.galleryNext.addEventListener('click', nextImage);
-  DOM.galleryPrev.addEventListener('click', prevImage);
+  // Gallery controls - FIXED: Add null checks
+  if (DOM.galleryClose) {
+    DOM.galleryClose.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeGallery();
+    });
+  }
+  
+  if (DOM.galleryNext) {
+    DOM.galleryNext.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      nextImage();
+    });
+  }
+  
+  if (DOM.galleryPrev) {
+    DOM.galleryPrev.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      prevImage();
+    });
+  }
 
-  // Close on backdrop click
-  DOM.galleryModal.addEventListener('click', (e) => {
-    if (e.target.id === 'galleryModal') closeGallery();
-  });
+  // Close on backdrop click - FIXED: Better modal detection
+  if (DOM.galleryModal) {
+    DOM.galleryModal.addEventListener('click', (e) => {
+      if (e.target === DOM.galleryModal) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeGallery();
+      }
+    });
+  }
 
   // Keyboard navigation - optimized
   document.addEventListener('keydown', (e) => {
-    if (!DOM.galleryModal.classList.contains('active')) return;
+    if (!DOM.galleryModal || !DOM.galleryModal.classList.contains('active')) return;
     
     switch(e.key) {
-      case 'Escape': closeGallery(); break;
-      case 'ArrowLeft': prevImage(); break;
-      case 'ArrowRight': nextImage(); break;
+      case 'Escape': 
+        e.preventDefault();
+        closeGallery(); 
+        break;
+      case 'ArrowLeft': 
+        e.preventDefault();
+        prevImage(); 
+        break;
+      case 'ArrowRight': 
+        e.preventDefault();
+        nextImage(); 
+        break;
     }
   });
 
@@ -345,16 +404,20 @@ function initPortfolioHandlers() {
     const el = ev.target && ev.target.closest ? ev.target.closest('.portfolio-project') : null;
     if (!el) return;
     const key = el.getAttribute('data-project');
+    if (!key || !portfolioData[key]) return;
+    
     idle(() => {
       const project = portfolioData[key];
-      if (!project || !project.images) return;
+      if (!project || !project.images || project.images.length === 0) return;
       const count = Math.min(project.images.length, 4);
       for (let i = 0; i < count; i++) {
         const src = project.images[i];
-        const img = new Image();
-        img.decoding = 'async';
-        img.loading = 'eager';
-        img.src = src;
+        if (src) {
+          const img = new Image();
+          img.decoding = 'async';
+          img.loading = 'eager';
+          img.src = src;
+        }
       }
     }, 800);
   };
