@@ -1048,14 +1048,12 @@
           document.body.appendChild(bar);
 
           // Drag interactions for overlay scrollbar
-          var dragging = false, thumbY = 0, startY = 0;
+          var dragging = false;
+          var thumbStartY = 0;
+          var scrollStartY = 0;
           
           function isNear(){ 
             return root.classList.contains('near-3d-models') || body.classList.contains('near-3d-models'); 
-          }
-          
-          function clamp(v, min, max){ 
-            return v < min ? min : (v > max ? max : v); 
           }
           
           function updateThumbPosition() {
@@ -1065,9 +1063,9 @@
             var thumbH = thumb.offsetHeight;
             var maxTravel = Math.max(0, trackH - thumbH);
             
-            var progress = docHeight > 0 ? scY / docHeight : 0;
+            if (docHeight <= 0) return;
+            var progress = scY / docHeight;
             var y = Math.round(progress * maxTravel);
-            thumbY = y;
             thumb.style.transform = 'translateY(' + y + 'px)';
           }
           
@@ -1075,7 +1073,10 @@
             if (!isNear()) return;
             dragging = true;
             bar.classList.add('dragging');
-            startY = ev.touches ? ev.touches[0].clientY : ev.clientY;
+            
+            thumbStartY = ev.touches ? ev.touches[0].clientY : ev.clientY;
+            scrollStartY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+            
             if (ev.cancelable) ev.preventDefault();
             
             document.addEventListener('touchmove', onMove, {passive: false});
@@ -1089,21 +1090,25 @@
             if (ev.cancelable) ev.preventDefault();
             
             var currentY = ev.touches ? ev.touches[0].clientY : ev.clientY;
-            var delta = currentY - startY;
-            var barRect = bar.getBoundingClientRect();
+            var deltaY = currentY - thumbStartY;
+            
             var trackH = bar.offsetHeight;
             var thumbH = thumb.offsetHeight;
             var maxTravel = Math.max(0, trackH - thumbH);
             
-            var newY = clamp(thumbY + delta, 0, maxTravel);
-            var progress = maxTravel > 0 ? newY / maxTravel : 0;
             var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            var newScroll = progress * docHeight;
+            if (docHeight <= 0) return;
             
-            window.scrollTo(0, newScroll);
-            thumbY = newY;
-            thumb.style.transform = 'translateY(' + newY + 'px)';
-            startY = currentY;
+            // حساب نسبة الحركة بشكل صحيح
+            var ratio = docHeight / maxTravel;
+            var newScroll = scrollStartY + (deltaY * ratio);
+            
+            // تطبيق الحركة على الموقع مباشرة
+            document.documentElement.scrollTop = newScroll;
+            document.body.scrollTop = newScroll;
+            
+            // تحديث موضع الـ thumb
+            updateThumbPosition();
           }
           
           function endDrag() {
@@ -1119,11 +1124,15 @@
           thumb.addEventListener('mousedown', startDrag);
           
           bar.addEventListener('touchstart', function(e) {
-            if (e.target === bar) startDrag(e);
+            if (e.target === bar) {
+              startDrag(e);
+            }
           }, {passive: false});
           
           bar.addEventListener('mousedown', function(e) {
-            if (e.target === bar) startDrag(e);
+            if (e.target === bar) {
+              startDrag(e);
+            }
           });
 
           function apply(on) {
@@ -1171,7 +1180,7 @@
 
           // Initial state after DOM ready
           setTimeout(check, 0);
-        } catch (e) { /* silent */ }
+        } catch (e) { console.error('Scrollbar error:', e); }
       }
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', setup, { once: true });
