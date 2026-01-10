@@ -340,6 +340,8 @@
         padding-left: 0 !important;
         padding-right: 0 !important;
       }
+
+      /* Mobile-only "touch wall" frame: touch outside should scroll, not rotate model */
       #models-3d .model-panel {
         max-width: 100% !important;
         width: 100% !important;
@@ -348,19 +350,32 @@
         max-height: none !important;
         box-shadow: none !important;
         border: none !important;
-        border-radius: 0px !important;
+        border-radius: 16px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        padding: 1.5rem 0 !important;
+        padding: 1.5rem 1rem !important;
+        position: relative !important;
+        overflow: hidden !important;
+        background: rgba(255,255,255,0.02) !important;
       }
-      
-      #models-3d .model-panel:hover {
-        box-shadow: none !important;
-        border-color: transparent !important;
-        transform: none !important;
+
+      /* Create a non-interactive border/area around the model */
+      #models-3d .model-panel::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border: 2px solid rgba(14,165,233,0.25);
+        border-radius: 16px;
+        pointer-events: none;
       }
-      
+
+      /* Make outer frame allow scrolling gestures */
+      #models-3d .model-panel {
+        touch-action: pan-y !important;
+      }
+
+      /* Only the model itself captures touches */
       #models-3d model-viewer {
         width: 100% !important;
         height: 100% !important;
@@ -370,6 +385,13 @@
         transform: translateX(0) scale(0.9) !important;
         transform-origin: center center !important;
         will-change: transform !important;
+        border-radius: 12px !important;
+        touch-action: manipulation !important;
+      }
+
+      /* Prevent accidental interaction from overlay elements (if any) */
+      #models-3d .model-panel * { 
+        -webkit-tap-highlight-color: transparent !important;
       }
     }
   </style>
