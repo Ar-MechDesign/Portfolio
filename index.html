@@ -326,11 +326,11 @@
     @media (max-width: 900px) {
       #models-3d .models-grid {
         grid-template-columns: 1fr !important;
-        row-gap: 0.25rem !important;
+        row-gap: 2rem !important;
         column-gap: 0.5rem !important;
         padding-inline: 1rem !important;
         min-height: auto !important;
-        max-width: 85% !important;
+        max-width: 100% !important;
         margin: 0 auto !important;
         justify-items: center !important;
         justify-content: center !important;
@@ -344,13 +344,15 @@
         max-width: 100% !important;
         width: 100% !important;
         aspect-ratio: 1 / 1 !important;
-        min-height: 300px !important;
+        min-height: 280px !important;
+        max-height: none !important;
         box-shadow: none !important;
         border: none !important;
         border-radius: 0px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
+        padding: 1.5rem 0 !important;
       }
       
       #models-3d .model-panel:hover {
@@ -365,7 +367,7 @@
         max-width: 100% !important;
         margin: 0 auto !important;
         padding: 0 !important;
-        transform: translateX(0) scale(0.98) !important;
+        transform: translateX(0) scale(0.9) !important;
         transform-origin: center center !important;
         will-change: transform !important;
       }
@@ -988,208 +990,7 @@
       50% { box-shadow: 0 0 12px rgba(14,165,233,0.7), 0 0 20px rgba(139,92,246,0.35); }
     }
   </style>
-  <style id="mobile-3d-overlay-scrollbar">
-    @media (max-width: 900px) {
-      .mobile-scrollbar {
-        position: fixed;
-        right: 8px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 12px;
-        height: 34vh;
-        border-radius: 10px;
-        background: linear-gradient(180deg, rgba(148,163,184,0.12), rgba(148,163,184,0.06));
-        box-shadow: inset 0 0 0 1px rgba(148,163,184,0.12);
-        z-index: 1500;
-        opacity: 0;
-        transition: opacity 0.25s ease;
-        pointer-events: none;
-      }
-      html.near-3d-models .mobile-scrollbar,
-      body.near-3d-models .mobile-scrollbar { opacity: 1; pointer-events: auto; }
-      .mobile-scrollbar .thumb {
-        position: absolute;
-        left: 0;
-        width: 100%;
-        height: 9vh;
-        min-height: 38px;
-        max-height: 18vh;
-        border-radius: 10px;
-        background: linear-gradient(180deg, rgba(14,165,233,.85), rgba(139,92,246,.85));
-        box-shadow: 0 4px 16px rgba(14,165,233,.35), 0 2px 10px rgba(139,92,246,.25);
-        transform: translateY(0);
-        cursor: grab;
-        touch-action: none;
-        user-select: none;
-        will-change: transform;
-      }
-      .mobile-scrollbar.dragging .thumb { cursor: grabbing; }
-    }
-  </style>
-  <script id="mobile-3d-only-scrollbar-js">
-    (function () {
-      'use strict';
-      function setup() {
-        try {
-          var mq = window.matchMedia('(max-width: 900px)');
-          if (!mq.matches) return;
-
-          var root = document.documentElement;
-          var body = document.body;
-          var target = document.getElementById('models-3d');
-          if (!target) return;
-
-          // Create overlay scrollbar once
-          var bar = document.createElement('div');
-          bar.className = 'mobile-scrollbar';
-          var thumb = document.createElement('div');
-          thumb.className = 'thumb';
-          bar.appendChild(thumb);
-          document.body.appendChild(bar);
-
-          // Drag interactions for overlay scrollbar
-          var dragging = false;
-          var thumbStartY = 0;
-          var scrollStartY = 0;
-          
-          function isNear(){ 
-            return root.classList.contains('near-3d-models') || body.classList.contains('near-3d-models'); 
-          }
-          
-          function updateThumbPosition() {
-            var scY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            var trackH = bar.offsetHeight;
-            var thumbH = thumb.offsetHeight;
-            var maxTravel = Math.max(0, trackH - thumbH);
-            
-            if (docHeight <= 0) return;
-            var progress = scY / docHeight;
-            var y = Math.round(progress * maxTravel);
-            thumb.style.transform = 'translateY(' + y + 'px)';
-          }
-          
-          function startDrag(ev) {
-            if (!isNear()) return;
-            dragging = true;
-            bar.classList.add('dragging');
-            
-            thumbStartY = ev.touches ? ev.touches[0].clientY : ev.clientY;
-            scrollStartY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-            
-            if (ev.cancelable) ev.preventDefault();
-            
-            document.addEventListener('touchmove', onMove, {passive: false});
-            document.addEventListener('touchend', endDrag, {passive: true});
-            document.addEventListener('mousemove', onMove);
-            document.addEventListener('mouseup', endDrag);
-          }
-          
-          function onMove(ev) {
-            if (!dragging) return;
-            if (ev.cancelable) ev.preventDefault();
-            
-            var currentY = ev.touches ? ev.touches[0].clientY : ev.clientY;
-            var deltaY = currentY - thumbStartY;
-            
-            var trackH = bar.offsetHeight;
-            var thumbH = thumb.offsetHeight;
-            var maxTravel = Math.max(0, trackH - thumbH);
-            
-            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            if (docHeight <= 0) return;
-            
-            // حساب نسبة الحركة بشكل صحيح - deltaY / maxTravel = نسبة الحركة على الـ track
-            // ثم نضرب هذه النسبة في docHeight للحصول على مقدار الـ scroll
-            var scrollRatio = deltaY / maxTravel;
-            var newScroll = scrollStartY + (scrollRatio * docHeight);
-            
-            // تطبيق الحركة على الموقع مباشرة
-            document.documentElement.scrollTop = newScroll;
-            document.body.scrollTop = newScroll;
-            
-            // تحديث موضع الـ thumb
-            updateThumbPosition();
-          }
-          
-          function endDrag() {
-            dragging = false;
-            bar.classList.remove('dragging');
-            document.removeEventListener('touchmove', onMove, {passive: false});
-            document.removeEventListener('touchend', endDrag, {passive: true});
-            document.removeEventListener('mousemove', onMove);
-            document.removeEventListener('mouseup', endDrag);
-          }
-          
-          thumb.addEventListener('touchstart', startDrag, {passive: false});
-          thumb.addEventListener('mousedown', startDrag);
-          
-          bar.addEventListener('touchstart', function(e) {
-            if (e.target === bar) {
-              startDrag(e);
-            }
-          }, {passive: false});
-          
-          bar.addEventListener('mousedown', function(e) {
-            if (e.target === bar) {
-              startDrag(e);
-            }
-          });
-
-          function apply(on) {
-            if (on) { 
-              root.classList.add('near-3d-models'); 
-              body.classList.add('near-3d-models'); 
-            } else { 
-              root.classList.remove('near-3d-models'); 
-              body.classList.remove('near-3d-models'); 
-            }
-          }
-
-          // Intersection-based toggle with generous margins
-          if ('IntersectionObserver' in window) {
-            var io = new IntersectionObserver(function (entries) {
-              var e = entries && entries[0];
-              apply(!!(e && e.isIntersecting));
-            }, { root: null, rootMargin: '300px 0px 300px 0px', threshold: 0 });
-            io.observe(target);
-          }
-
-          // Fallback + continuous check for visibility + position
-          var lastVis = null;
-          function check() {
-            var r = target.getBoundingClientRect();
-            var vis = r.top < (window.innerHeight + 300) && r.bottom > -300;
-            if (vis !== lastVis) { apply(vis); lastVis = vis; }
-            if (vis && !dragging) updateThumbPosition();
-          }
-
-          var ticking = false;
-          function onScrollOrResize(){
-            if (!ticking){
-              window.requestAnimationFrame(function(){
-                check();
-                ticking = false;
-              });
-              ticking = true;
-            }
-          }
-
-          window.addEventListener('scroll', onScrollOrResize, { passive: true });
-          window.addEventListener('resize', onScrollOrResize, { passive: true });
-          window.addEventListener('orientationchange', onScrollOrResize, { passive: true });
-
-          // Initial state after DOM ready
-          setTimeout(check, 0);
-        } catch (e) { console.error('Scrollbar error:', e); }
-      }
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', setup, { once: true });
-      } else {
-        setup();
-      }
-    })();
-  </script>
+  <!-- Scrollbar المخصص تم حذفه - استخدام الـ scrollbar الافتراضي بدلاً منه -->
   <script id="scroll-smoothness-boost-js">
     (function(){
       'use strict';
@@ -1297,6 +1098,68 @@
       #models-3d + * { margin-top: 0 !important; }
     }
   </style>
+
+  <script id="reorder-sections-mobile-only-js">
+    // نقل قسم 3D Design Models ليكون بعد معلومات الاتصال على الهاتف المحمول فقط
+    (function(){
+      function reorderSections(){
+        // تحقق من حجم الشاشة - فقط على الهاتف المحمول (أقل من 901px)
+        var isMobile = window.matchMedia('(max-width: 900px)').matches;
+        
+        if (!isMobile) {
+          console.log('Desktop mode - no reordering');
+          return;
+        }
+        
+        console.log('Mobile mode - attempting reorder');
+        
+        var models3d = document.getElementById('models-3d');
+        var contacts = document.querySelectorAll('#contact');
+        
+        console.log('Found models-3d:', !!models3d);
+        console.log('Found contacts:', contacts.length);
+        
+        if (!models3d || !contacts.length) {
+          console.log('Missing elements, aborting');
+          return;
+        }
+        
+        // استهدف القسم الأول من contact
+        var firstContact = contacts[0];
+        var parent = firstContact.parentNode;
+        
+        console.log('Parent element:', parent ? parent.tagName : 'null');
+        
+        if (!parent) {
+          console.log('No parent found');
+          return;
+        }
+        
+        // نقل models-3d بعد contact (تحته) فقط على الهاتف
+        try {
+          var nextElement = firstContact.nextSibling;
+          parent.insertBefore(models3d, nextElement);
+          console.log('✅ Successfully moved 3D section after contact');
+        } catch(e) {
+          console.error('❌ Error moving element:', e);
+        }
+      }
+      
+      // تشغيل الدالة عند تحميل الصفحة
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+          setTimeout(reorderSections, 100);
+        }, { once: true });
+      } else {
+        setTimeout(reorderSections, 100);
+      }
+      
+      // تشغيل إضافي عند تحميل كامل الصفحة
+      window.addEventListener('load', function() {
+        setTimeout(reorderSections, 100);
+      }, { once: true });
+    })();
+  </script>
 
   <script id="gallery-scroll-lock-bridge">
     // Bridge scroll-lock to the gallery state without changing gallery content/design.
@@ -8040,7 +7903,7 @@
 
   <footer class="footer">
     <div class="container">
-      <p class="footer-text">© 2025 Abdelrahman Okasha — Portfolio</p>
+      <p class="footer-text">© 2026 Abdelrahman Okasha — Portfolio</p>
     </div>
   </footer>
 
