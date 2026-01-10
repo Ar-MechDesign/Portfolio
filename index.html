@@ -1048,80 +1048,92 @@
           document.body.appendChild(bar);
 
           // Drag interactions for overlay scrollbar
-          var dragging = false, thumbY = 0, anchorOffset = 0;
-          function isNear(){ return root.classList.contains('near-3d-models') || body.classList.contains('near-3d-models'); }
-          function clamp(v,min,max){ return v<min?min:(v>max?max:v); }
-          function scrollToProgress(p){
-            // DISABLED: Never auto-scroll on mobile
-            // var viewportH = window.innerHeight || document.documentElement.clientHeight;
-            // var sectionTop = target.getBoundingClientRect().top + window.scrollY;
-            // var sectionH = target.offsetHeight;
-            // var scY = p * (sectionH + viewportH) - viewportH + sectionTop;
-            // window.scrollTo(0, Math.round(scY));
+          var dragging = false, thumbY = 0, startY = 0;
+          
+          function isNear(){ 
+            return root.classList.contains('near-3d-models') || body.classList.contains('near-3d-models'); 
           }
-          function updateFromEvent(ev, center){
-            var clientY = ev.touches ? ev.touches[0].clientY : ev.clientY;
+          
+          function clamp(v, min, max){ 
+            return v < min ? min : (v > max ? max : v); 
+          }
+          
+          function updateThumbPosition() {
+            var scY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            var trackH = bar.offsetHeight;
+            var thumbH = thumb.offsetHeight;
+            var maxTravel = Math.max(0, trackH - thumbH);
+            
+            var progress = docHeight > 0 ? scY / docHeight : 0;
+            var y = Math.round(progress * maxTravel);
+            thumbY = y;
+            thumb.style.transform = 'translateY(' + y + 'px)';
+          }
+          
+          function startDrag(ev) {
+            if (!isNear()) return;
+            dragging = true;
+            bar.classList.add('dragging');
+            startY = ev.touches ? ev.touches[0].clientY : ev.clientY;
+            if (ev.cancelable) ev.preventDefault();
+            
+            document.addEventListener('touchmove', onMove, {passive: false});
+            document.addEventListener('touchend', endDrag, {passive: true});
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', endDrag);
+          }
+          
+          function onMove(ev) {
+            if (!dragging) return;
+            if (ev.cancelable) ev.preventDefault();
+            
+            var currentY = ev.touches ? ev.touches[0].clientY : ev.clientY;
+            var delta = currentY - startY;
             var barRect = bar.getBoundingClientRect();
             var trackH = bar.offsetHeight;
             var thumbH = thumb.offsetHeight;
             var maxTravel = Math.max(0, trackH - thumbH);
-            var y;
-            if (dragging) {
-              // Use anchored offset to prevent jump and jitter
-              y = clientY - barRect.top - anchorOffset;
-            } else {
-              // Center on tap on the track
-              y = clientY - barRect.top - (center ? thumbH/2 : thumbH/2);
-            }
-            y = clamp(Math.round(y), 0, maxTravel);
-            var p = maxTravel ? (y / maxTravel) : 0;
-            thumbY = y;
-            thumb.style.transform = 'translateY(' + y + 'px)';
-            scrollToProgress(p);
+            
+            var newY = clamp(thumbY + delta, 0, maxTravel);
+            var progress = maxTravel > 0 ? newY / maxTravel : 0;
+            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            var newScroll = progress * docHeight;
+            
+            window.scrollTo(0, newScroll);
+            thumbY = newY;
+            thumb.style.transform = 'translateY(' + newY + 'px)';
+            startY = currentY;
           }
-          function startDrag(ev, center){
-            if(!isNear()) return;
-            dragging = true;
-            bar.classList.add('dragging');
-            // Force instant scrolling during drag for perfect sync
-            root.classList.add('drag-scrolling');
-            body.classList.add('drag-scrolling');
-            if(ev.cancelable) ev.preventDefault();
-            // Anchor grab point inside thumb to avoid initial jump
-            var clientY = ev.touches ? ev.touches[0].clientY : ev.clientY;
-            var barRect = bar.getBoundingClientRect();
-            anchorOffset = clientY - (barRect.top + thumbY);
-            updateFromEvent(ev, false);
-            document.addEventListener('touchmove', onMove, {passive:false});
-            document.addEventListener('touchend', endDrag, {passive:true});
-            document.addEventListener('mousemove', onMove);
-            document.addEventListener('mouseup', endDrag);
-          }
-          function onMove(ev){
-            if(!dragging) return;
-            if(ev.cancelable) ev.preventDefault();
-            // Update immediately to keep thumb and page in perfect sync
-            updateFromEvent(ev, false);
-          }
-          function endDrag(){
+          
+          function endDrag() {
             dragging = false;
-            anchorOffset = 0;
             bar.classList.remove('dragging');
-            root.classList.remove('drag-scrolling');
-            body.classList.remove('drag-scrolling');
-            document.removeEventListener('touchmove', onMove, {passive:false});
-            document.removeEventListener('touchend', endDrag, {passive:true});
+            document.removeEventListener('touchmove', onMove, {passive: false});
+            document.removeEventListener('touchend', endDrag, {passive: true});
             document.removeEventListener('mousemove', onMove);
             document.removeEventListener('mouseup', endDrag);
           }
-          thumb.addEventListener('touchstart', function(e){ startDrag(e,true); }, {passive:false});
-          thumb.addEventListener('mousedown', function(e){ startDrag(e,true); });
-          bar.addEventListener('touchstart', function(e){ if(e.target===bar) startDrag(e,true); }, {passive:false});
-          bar.addEventListener('mousedown', function(e){ if(e.target===bar) startDrag(e,true); });
+          
+          thumb.addEventListener('touchstart', startDrag, {passive: false});
+          thumb.addEventListener('mousedown', startDrag);
+          
+          bar.addEventListener('touchstart', function(e) {
+            if (e.target === bar) startDrag(e);
+          }, {passive: false});
+          
+          bar.addEventListener('mousedown', function(e) {
+            if (e.target === bar) startDrag(e);
+          });
 
           function apply(on) {
-            if (on) { root.classList.add('near-3d-models'); body.classList.add('near-3d-models'); }
-            else { root.classList.remove('near-3d-models'); body.classList.remove('near-3d-models'); }
+            if (on) { 
+              root.classList.add('near-3d-models'); 
+              body.classList.add('near-3d-models'); 
+            } else { 
+              root.classList.remove('near-3d-models'); 
+              body.classList.remove('near-3d-models'); 
+            }
           }
 
           // Intersection-based toggle with generous margins
@@ -1133,29 +1145,13 @@
             io.observe(target);
           }
 
-          // Update thumb position based on section progress
-          function updateThumb() {
-            var viewportH = window.innerHeight || document.documentElement.clientHeight;
-            var sectionTop = target.getBoundingClientRect().top + window.scrollY;
-            var sectionH = target.offsetHeight;
-            var scY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-            var progress = (scY + viewportH - sectionTop) / (sectionH + viewportH);
-            if (progress < 0) progress = 0; else if (progress > 1) progress = 1;
-            var trackH = bar.offsetHeight;
-            var thumbH = thumb.offsetHeight;
-            var maxTravel = Math.max(0, trackH - thumbH);
-            var y = Math.round(progress * maxTravel);
-            thumbY = y;
-            thumb.style.transform = 'translateY(' + y + 'px)';
-          }
-
           // Fallback + continuous check for visibility + position
           var lastVis = null;
           function check() {
             var r = target.getBoundingClientRect();
             var vis = r.top < (window.innerHeight + 300) && r.bottom > -300;
             if (vis !== lastVis) { apply(vis); lastVis = vis; }
-            if (vis && !dragging) updateThumb();
+            if (vis && !dragging) updateThumbPosition();
           }
 
           var ticking = false;
