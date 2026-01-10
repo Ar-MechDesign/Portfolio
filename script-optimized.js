@@ -348,10 +348,18 @@ function closeGallery() {
   document.body.style.overflow = '';
   
   // Restore scroll position after closing gallery
-  if (__scrollPositionBeforeGallery > 0) {
+  // Use requestAnimationFrame to ensure DOM is updated before restoring scroll
+  requestAnimationFrame(function() {
+    // Set scroll position on both documentElement and body for cross-browser compatibility
     document.documentElement.scrollTop = __scrollPositionBeforeGallery;
     document.body.scrollTop = __scrollPositionBeforeGallery;
-  }
+    
+    // Force a second update in case the first one didn't take effect
+    requestAnimationFrame(function() {
+      document.documentElement.scrollTop = __scrollPositionBeforeGallery;
+      document.body.scrollTop = __scrollPositionBeforeGallery;
+    });
+  });
 }
 
 // ============================================

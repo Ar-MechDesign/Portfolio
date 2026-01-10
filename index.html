@@ -1330,6 +1330,11 @@
           requestAnimationFrame(function(){
             document.documentElement.scrollTop = scrollY;
             document.body.scrollTop = scrollY;
+            // Force a second update to ensure scroll position is properly restored
+            requestAnimationFrame(function(){
+              document.documentElement.scrollTop = scrollY;
+              document.body.scrollTop = scrollY;
+            });
             // DO NOT use window.scrollY = scrollY (it's read-only)
             // DO NOT use window.scrollTo() (causes unwanted animation)
           });
