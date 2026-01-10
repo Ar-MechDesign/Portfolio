@@ -719,6 +719,22 @@
     }
   })();
   </script>
+  <script id="fix-technical-drawing-overlay">
+  (function(){
+    function fix(){
+      try{
+        var nodes = document.querySelectorAll('#portfolio .portfolio-project[data-project="technical-drawing"] .project-overlay .view-project');
+        if(!nodes || !nodes.length) return;
+        nodes.forEach(function(n){ n.textContent = '📝 Technical Drawing'; });
+      }catch(e){}
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', fix, {once:true});
+    } else {
+      fix();
+    }
+  })();
+  </script>
   <style id="pc-chassis-gallery-pc-row">
     /* PC-only: force Chassis Gallery images into a single horizontal row */
     @media (min-width: 901px) {
