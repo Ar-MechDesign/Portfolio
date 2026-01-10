@@ -1323,11 +1323,8 @@
           document.body.style.right = '';
           document.body.style.width = '';
           document.body.style.overflow = '';
-          // Restore scroll position WITHOUT triggering auto-scroll behavior
-          // Use requestAnimationFrame to ensure DOM is ready before scrolling
-          requestAnimationFrame(function(){
-            window.scrollTo(0, __scrollYBeforeOpen || 0);
-          });
+          // NEVER scroll - just restore the body to normal state
+          // User stays exactly where they were before opening gallery
         } catch(e) {}
       }
 
