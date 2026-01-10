@@ -1302,7 +1302,7 @@
 
       function lock(){
         try {
-          __scrollYBeforeOpen = window.scrollY || window.pageYOffset || 0;
+          __scrollYBeforeOpen = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
           document.documentElement.classList.add('gallery-open');
           document.body.classList.add('gallery-open');
           document.body.style.position = 'fixed';
@@ -1317,7 +1317,6 @@
       function unlock(){
         try {
           var scrollY = __scrollYBeforeOpen || 0;
-          
           document.documentElement.classList.remove('gallery-open');
           document.body.classList.remove('gallery-open');
           document.body.style.position = '';
@@ -1326,9 +1325,13 @@
           document.body.style.right = '';
           document.body.style.width = '';
           document.body.style.overflow = '';
-          
-          // Restore scroll position using the correct method
-          window.scrollTo(0, scrollY);
+          // Restore scroll position AFTER removing fixed positioning
+          // Use requestAnimationFrame to ensure DOM is updated first
+          requestAnimationFrame(function(){
+            document.documentElement.scrollTop = scrollY;
+            document.body.scrollTop = scrollY;
+            window.scrollY = scrollY;
+          });
         } catch(e) {}
       }
 
