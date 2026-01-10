@@ -1052,11 +1052,12 @@
           function isNear(){ return root.classList.contains('near-3d-models') || body.classList.contains('near-3d-models'); }
           function clamp(v,min,max){ return v<min?min:(v>max?max:v); }
           function scrollToProgress(p){
-            var viewportH = window.innerHeight || document.documentElement.clientHeight;
-            var sectionTop = target.getBoundingClientRect().top + window.scrollY;
-            var sectionH = target.offsetHeight;
-            var scY = p * (sectionH + viewportH) - viewportH + sectionTop;
-            window.scrollTo(0, Math.round(scY));
+            // DISABLED: Never auto-scroll on mobile
+            // var viewportH = window.innerHeight || document.documentElement.clientHeight;
+            // var sectionTop = target.getBoundingClientRect().top + window.scrollY;
+            // var sectionH = target.offsetHeight;
+            // var scY = p * (sectionH + viewportH) - viewportH + sectionTop;
+            // window.scrollTo(0, Math.round(scY));
           }
           function updateFromEvent(ev, center){
             var clientY = ev.touches ? ev.touches[0].clientY : ev.clientY;
