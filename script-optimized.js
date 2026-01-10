@@ -181,6 +181,7 @@ const chassisData = [
 // Gallery state
 let currentGallery = [];
 let currentImageIndex = 0;
+let __scrollPositionBeforeGallery = 0; // Save scroll position before opening gallery
 
 // Cache DOM elements
 const DOM = {};
@@ -260,6 +261,9 @@ function openGallery(projectKey) {
 
   currentGallery = project.images;
   currentImageIndex = 0;
+
+  // Save scroll position BEFORE opening gallery
+  __scrollPositionBeforeGallery = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
 
   DOM.galleryTitle.textContent = project.title;
   DOM.galleryModal.classList.add('active');
@@ -342,6 +346,12 @@ function prevImage() {
 function closeGallery() {
   DOM.galleryModal.classList.remove('active');
   document.body.style.overflow = '';
+  
+  // Restore scroll position after closing gallery
+  if (__scrollPositionBeforeGallery > 0) {
+    document.documentElement.scrollTop = __scrollPositionBeforeGallery;
+    document.body.scrollTop = __scrollPositionBeforeGallery;
+  }
 }
 
 // ============================================
