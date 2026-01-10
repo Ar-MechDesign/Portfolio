@@ -1316,6 +1316,8 @@
 
       function unlock(){
         try {
+          var scrollY = __scrollYBeforeOpen || 0;
+          
           document.documentElement.classList.remove('gallery-open');
           document.body.classList.remove('gallery-open');
           document.body.style.position = '';
@@ -1324,8 +1326,9 @@
           document.body.style.right = '';
           document.body.style.width = '';
           document.body.style.overflow = '';
-          // NEVER scroll - just restore the body to normal state
-          // User stays exactly where they were before opening gallery
+          
+          // Restore scroll position using the correct method
+          window.scrollTo(0, scrollY);
         } catch(e) {}
       }
 
