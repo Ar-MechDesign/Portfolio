@@ -80,9 +80,12 @@
   </script>
   <!-- Styles for 3D Design Models section -->
   <style id="models-3d-styles">
+    /* Ultra-tight start for 3D section (no visible gap after Engineering Portfolio) */
     #models-3d {
-      padding-block: clamp(1rem, 2vw, 1.5rem);
-      padding-bottom: 1rem !important;
+      padding-top: 0 !important;
+      padding-block: 0 !important;
+      padding-bottom: 0 !important;
+      margin-top: 0 !important;
       margin-bottom: 0 !important;
       border-bottom: 0.01px solid transparent; /* prevent margin-collapsing */
     }
@@ -93,7 +96,8 @@
       margin-bottom: 0 !important;
     }
     #models-3d .section-header {
-      margin-bottom: 0.25rem; /* tighter to reduce internal trailing space */
+      margin: 0 !important;
+      padding: 0 !important;
       text-align: center;
     }
     /* Tighten the gap before the next section (DYNAMIC SHOWCASE) */
@@ -662,8 +666,11 @@
     }
   </style>
   <style id="technical-drawing-dup-fix">
-    /* Hide accidental duplicate of Technical Drawing card when two identical blocks are adjacent */
-    .engineering-portfolio-grid .portfolio-project[data-project="technical-drawing"] + .portfolio-project[data-project="technical-drawing"] {
+    /* Remove ONLY the duplicate that appears in the first row.
+       Keep the Technical Drawing card that was moved to the last row by JS.
+       No layout/design changes; we simply hide the first occurrence if two exist.
+    */
+    #portfolio .engineering-portfolio-grid .portfolio-project[data-project="technical-drawing"]:first-of-type {
       display: none !important;
     }
   </style>
@@ -676,10 +683,24 @@
         var inj = grid.querySelector('.portfolio-project[data-project="injection-molding"]');
         var tech = grid.querySelector('.portfolio-project[data-project="technical-drawing"]');
         if(!inj || !tech) return;
-        var rel = inj.compareDocumentPosition(tech);
-        var injBeforeTech = (rel & Node.DOCUMENT_POSITION_FOLLOWING) === Node.DOCUMENT_POSITION_FOLLOWING;
-        if (injBeforeTech) return;
-        grid.insertBefore(inj, tech);
+
+        // Place Technical Drawing in the 4th (last) row with two other cards.
+        // For a 3-column grid, row 4 begins at position 10 (0-based index 9) among direct children.
+        var cards = Array.prototype.slice.call(grid.querySelectorAll(':scope > .portfolio-project'));
+        // Keep current DOM order; move ONLY the existing Technical Drawing node.
+        cards = cards.filter(function(c){ return c !== tech; });
+
+        var targetIndex = 9;
+        if (cards.length >= targetIndex) {
+          var ref = cards[targetIndex] || null;
+          if (ref) grid.insertBefore(tech, ref);
+          else grid.appendChild(tech);
+        } else {
+          // If there aren't enough cards for 4 full rows, ensure it's not alone by putting it before last two cards.
+          var before = cards[cards.length - 2] || null;
+          if (before) grid.insertBefore(tech, before);
+          else grid.appendChild(tech);
+        }
       } catch(e){}
     }
     if (document.readyState === 'loading') {
@@ -1188,51 +1209,143 @@
   </style>
     <style id="post-3d-gap-fix">
     :root { --post-3d-gap: 0px; }
-    /* Pull up the block immediately after 3D Models with MASSIVE visible movement */
+
+    /* Hard remove any gap between Engineering Portfolio and 3D section */
+    #portfolio {
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+    }
+    #portfolio .container {
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+    }
+    #portfolio .engineering-portfolio-grid {
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+    }
+    #portfolio .engineering-portfolio-grid > .portfolio-project:last-child {
+      margin-bottom: 0 !important;
+    }
+
+    /* Remove any wrapper/whitespace blocks between the two sections */
+    #portfolio + * {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      min-height: 0 !important;
+      height: auto !important;
+      border: 0 !important;
+      line-height: 0 !important;
+    }
+    #portfolio + *:empty { display: none !important; }
+
+    /* Make sure 3D starts immediately */
+    #portfolio + #models-3d,
+    #portfolio + section#models-3d,
+    #portfolio + * + #models-3d,
+    #portfolio + * + section#models-3d {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+
+    /* Keep spacing after 3D Models normal (do not inject any extra gaps) */
     #models-3d {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
       margin-bottom: 0 !important;
       padding-bottom: 0 !important;
       border-bottom: 0.01px solid transparent !important;
     }
     #models-3d + * {
-      margin-top: 1350px !important;
+      margin-top: 0 !important;
       padding-top: 0 !important;
       border-top: none !important;
     }
-    #models-3d + * > .container:first-child,
-    #models-3d + * > *:first-child,
-    #models-3d + * .section-header:first-child,
-    #models-3d + * .section-badge:first-child {
-      margin-top: 0 !important;
-      padding-top: 0 !important;
-    }
-    /* Keep minimal gap for subsequent sections */
-    #models-3d ~ section,
-    #models-3d ~ .section,
-    #models-3d ~ * {
-      margin-top: var(--post-3d-gap) !important;
-      padding-top: 0 !important;
-    }
+
     /* Known IDs: ensure no internal offset remains */
     #engineering-in-motion,
     #motion,
     #videos {
-      margin-top: 100px !important;
+      margin-top: 0 !important;
       padding-top: 0 !important;
       border-top: none !important;
     }
-    #engineering-in-motion > .container:first-child,
-    #motion > .container:first-child,
-    #videos > .container:first-child {
-      margin-top: 0 !important;
-      padding-top: 0 !important;
-    }
+
     @media (max-width: 900px){
       :root { --post-3d-gap: 0px; }
       #models-3d { margin-bottom: 0 !important; }
-      #models-3d + * { margin-top: 24px !important; }
+      #models-3d + * { margin-top: 0 !important; }
     }
   </style>
+
+  <script id="gallery-scroll-lock-bridge">
+    // Bridge scroll-lock to the gallery state without touching existing gallery design/animations.
+    // Works even if multiple openGallery/closeGallery implementations exist.
+    (function(){
+      var __scrollYBeforeOpen = null;
+      var __wasOpen = false;
+
+      function applyLockState(){
+        try {
+          var modal = document.getElementById('galleryModal');
+          var open = !!(modal && modal.classList.contains('active'));
+
+          // Detect open transition and store scroll position
+          if (open && !__wasOpen) {
+            __scrollYBeforeOpen = window.scrollY || window.pageYOffset || 0;
+          }
+
+          document.documentElement.classList.toggle('gallery-open', open);
+          document.body.classList.toggle('gallery-open', open);
+
+          // Keep inline lock consistent too
+          if (open) {
+            // Lock without forcing any scroll changes
+            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.top = -(__scrollYBeforeOpen || 0) + 'px';
+            document.body.style.width = '100%';
+          } else {
+            // Restore scroll position smoothly and without a visible jump
+            var restoreY = (__wasOpen && __scrollYBeforeOpen != null) ? __scrollYBeforeOpen : null;
+
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+
+            if (restoreY != null) {
+              window.scrollTo(0, restoreY);
+            }
+            __scrollYBeforeOpen = null;
+          }
+
+          __wasOpen = open;
+        } catch(e) {}
+      }
+
+      function bind(){
+        applyLockState();
+        var modal = document.getElementById('galleryModal');
+        if (!modal) return;
+
+        if ('MutationObserver' in window) {
+          var mo = new MutationObserver(function(){ applyLockState(); });
+          mo.observe(modal, { attributes: true, attributeFilter: ['class'] });
+        }
+
+        // Fallback: apply after interactions that may open/close the modal
+        document.addEventListener('click', function(){ setTimeout(applyLockState, 0); }, true);
+        document.addEventListener('keydown', function(){ setTimeout(applyLockState, 0); }, true);
+        window.addEventListener('resize', applyLockState, { passive: true });
+      }
+
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind, { once:true });
+      else bind();
+    })();
+  </script>
+
   <script>
     (function(){
       var lastH = -1;
@@ -5311,6 +5424,25 @@
       align-items: center;
       justify-content: center;
       animation: modal-fade-in 0.3s ease;
+    }
+
+    /* Force true full-screen overlay + prevent scrolling behind modal */
+    .gallery-modal {
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100dvh !important;
+      overflow: hidden !important;
+      overscroll-behavior: contain !important;
+      touch-action: none !important;
+    }
+
+    html.gallery-open,
+    body.gallery-open {
+      overflow: hidden !important;
+      height: 100% !important;
+      touch-action: none !important;
+      overscroll-behavior: none !important;
     }
 
     @keyframes modal-fade-in {
