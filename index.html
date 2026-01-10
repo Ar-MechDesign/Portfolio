@@ -1294,6 +1294,7 @@
   <script id="gallery-scroll-lock-bridge">
     // Bridge scroll-lock to the gallery state without changing gallery content/design.
     // Uses the standard "body position:fixed" technique to prevent scroll and preserve position.
+    // Prevents unwanted auto-scroll on mobile when closing gallery.
     (function(){
       var __scrollYBeforeOpen = 0;
       var __wasOpen = false;
@@ -1322,7 +1323,11 @@
           document.body.style.right = '';
           document.body.style.width = '';
           document.body.style.overflow = '';
-          window.scrollTo(0, __scrollYBeforeOpen || 0);
+          // Restore scroll position WITHOUT triggering auto-scroll behavior
+          // Use requestAnimationFrame to ensure DOM is ready before scrolling
+          requestAnimationFrame(function(){
+            window.scrollTo(0, __scrollYBeforeOpen || 0);
+          });
         } catch(e) {}
       }
 
