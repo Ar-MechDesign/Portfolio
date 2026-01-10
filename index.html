@@ -1330,7 +1330,8 @@
           requestAnimationFrame(function(){
             document.documentElement.scrollTop = scrollY;
             document.body.scrollTop = scrollY;
-            window.scrollY = scrollY;
+            // DO NOT use window.scrollY = scrollY (it's read-only)
+            // DO NOT use window.scrollTo() (causes unwanted animation)
           });
         } catch(e) {}
       }
