@@ -1289,6 +1289,143 @@
     })();
   </script>
   <!-- Preload critical resources for better performance -->
+  <script id="instant-explore-portfolio">
+    (function(){
+      function toPx(val){
+        var n = parseFloat(String(val||'').replace('px','').trim());
+        return isNaN(n) ? 0 : n;
+      }
+      function bind(){
+        try {
+          var link = document.querySelector('.hero-cta a[href="#portfolio"]');
+          var target = document.getElementById('portfolio');
+          if (!link || !target) return;
+          link.addEventListener('click', function(e){
+            // Capture early, cancel everything else
+            try { e.preventDefault(); e.stopImmediatePropagation(); } catch(_){}
+
+            // Disable any smooth behavior instantly
+            var docEl = document.documentElement;
+            var body = document.body;
+            var prevHtml = docEl.style.scrollBehavior;
+            var prevBody = body.style.scrollBehavior;
+            docEl.style.scrollBehavior = 'auto';
+            body.style.scrollBehavior = 'auto';
+
+            // Compute precise top with nav offset if available
+            var rect = target.getBoundingClientRect();
+            var y0 = (window.pageYOffset || docEl.scrollTop || 0) + rect.top;
+            var navVar = getComputedStyle(docEl).getPropertyValue('--nav-dyn-h');
+            var offset = Math.max(0, toPx(navVar));
+            var y = Math.max(0, y0 - offset);
+
+            // Immediate jump to target
+            try {
+              window.scrollTo(0, y);
+            } catch(_) {
+              try { target.scrollIntoView(true); } catch(__){}
+            }
+
+            // Update URL without triggering browser auto scroll
+            try { history.replaceState(null, '', '#portfolio'); } catch(_){ /* no-op */ }
+
+            // Restore previous styles on next tick
+            setTimeout(function(){
+              docEl.style.scrollBehavior = prevHtml || '';
+              body.style.scrollBehavior = prevBody || '';
+            }, 0);
+          }, { passive: false, capture: true });
+        } catch(e){}
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bind, { once: true });
+      } else {
+        bind();
+      }
+    })();
+  </script>
+  <script id="mobile-portfolio-title-swap">
+    (function(){
+      'use strict';
+      function debounce(fn, wait){ var t; return function(){ var ctx=this,args=arguments; clearTimeout(t); t=setTimeout(function(){ fn.apply(ctx,args); }, wait); }; }
+
+      // Map project keys to their mobile-friendly titles
+      var MAP = {
+        'achievements': 'Achievements',
+        'shell-eco': 'Shell Eco-Marathon',
+        'manufacturing': 'Manufacturing',
+        'wall-mounted-motor': 'Motor Holder',
+        'seating-chairs': 'Sheet Metal',
+        'helmet': 'Helmet Design',
+        'solidworks-champion': 'SW Champion',
+        'formula-chassis': 'Formula Student',
+        'injection-molding': 'Mold Design'
+      };
+
+      function apply(){
+        var isMobile = window.matchMedia('(max-width: 900px)').matches;
+        try {
+          Object.keys(MAP).forEach(function(key){
+            var nodes = document.querySelectorAll('#portfolio .portfolio-project[data-project="' + key + '"] .project-title');
+            if (!nodes || !nodes.length) return;
+            nodes.forEach(function(el){
+              if(!el.hasAttribute('data-original-title')){
+                el.setAttribute('data-original-title', (el.textContent || '').trim());
+              }
+              if(isMobile){
+                el.textContent = MAP[key];
+              } else {
+                var orig = el.getAttribute('data-original-title');
+                if (orig) el.textContent = orig;
+              }
+            });
+          });
+        } catch(e){}
+      }
+
+      // Observe dynamic changes in the portfolio grid (duplicates/reordering)
+      function observe(){
+        var grid = document.querySelector('#portfolio .engineering-portfolio-grid') || document.getElementById('portfolio');
+        if (!grid || !('MutationObserver' in window)) return;
+        var mo = new MutationObserver(debounce(apply, 10));
+        mo.observe(grid, { childList: true, subtree: true });
+      }
+
+      // Wrap the gallery opener to adjust modal title on mobile only
+      function wrapOpenGallery(){
+        if (wrapOpenGallery._done) return;
+        var og = window.openGallery || window['openGallery'];
+        if (typeof og !== 'function') return;
+        window.openGallery = function(projectKey){
+          og(projectKey);
+          try {
+            if (window.matchMedia('(max-width: 900px)').matches && MAP[projectKey]) {
+              var titleEl = document.getElementById('galleryTitle');
+              if (titleEl) titleEl.textContent = MAP[projectKey];
+            }
+          } catch(e){}
+        };
+        wrapOpenGallery._done = true;
+      }
+
+      var run = debounce(function(){ apply(); wrapOpenGallery(); }, 50);
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function(){ apply(); observe(); wrapOpenGallery(); }, {once:true});
+      } else {
+        apply(); observe(); wrapOpenGallery();
+      }
+
+      // Retry wrapping openGallery until it exists, then stop
+      var iv = setInterval(function(){
+        if (!wrapOpenGallery._done) wrapOpenGallery();
+        if (wrapOpenGallery._done) clearInterval(iv);
+      }, 100);
+
+      window.addEventListener('resize', run, {passive:true});
+      window.addEventListener('orientationchange', run, {passive:true});
+    })();
+  </script>
   <link rel="preload" as="image" href="Certificat.jpg">
   <link rel="preload" as="image" href="shell eco marathon chassis 2023.webp">
   <link rel="preload" as="image" href="shell eco marathon chassis 2025.webp">
