@@ -54,16 +54,25 @@
     requestAnimationFrame(animation);
   }
 
-  // Override smooth scroll
+  // Override smooth scroll (ONLY for normal in-page anchors).
+  // Do NOT interfere with navbar navigation; navbar has its own dedicated handler.
   document.addEventListener('click', (e) => {
     const anchor = e.target.closest('a[href^="#"]');
-    if (anchor) {
-      e.preventDefault();
-      const target = document.querySelector(anchor.getAttribute('href'));
-      if (target) {
-        smoothScrollTo(target);
-      }
-    }
+    if (!anchor) return;
+
+    // Ignore navbar links completely (fixes first-tap wrong target on mobile)
+    const nav = document.querySelector('.nav');
+    if (nav && nav.contains(anchor)) return;
+
+    // Only handle if the target exists
+    const href = anchor.getAttribute('href');
+    if (!href || href === '#') return;
+
+    const target = document.querySelector(href);
+    if (!target) return;
+
+    e.preventDefault();
+    smoothScrollTo(target);
   }, { capture: true });
 
   // ============================================

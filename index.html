@@ -8526,6 +8526,9 @@
 
     // Smooth scrolling for navigation links
     function initSmoothScrolling() {
+      // Disabled: this handler was causing first-tap wrong navigation on mobile
+      // due to conflicting with other smooth-scroll/nav scripts.
+      return;
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
           e.preventDefault();
