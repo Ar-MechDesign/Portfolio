@@ -53,6 +53,60 @@
   <script defer src="ui-ux-enhancements.js"></script>
   <!-- 🎬 Optimized Video Handler - Clean & Efficient -->
   <script defer src="video-handler.js"></script>
+
+  <script id="fix-engineering-in-motion-efg">
+    // Minimal fix for Engineering in Motion (Videos E/F/G):
+    // - No card creation
+    // - No reordering
+    // - No intervals
+    // - Only ensure a single per-video description exists in .video-info
+    (function(){
+      'use strict';
+
+      var MAP = {
+        'Videos/E.mp4': 'Sheet Metal',
+        'Videos/F.mp4': 'Mold Design',
+        'Videos/G.mp4': 'Simulation Plastic'
+      };
+
+      function setDescription(src, text){
+        try {
+          var source = document.querySelector('#videos source[src="' + src + '"]');
+          if (!source) return;
+          var video = source.closest('video');
+          if (!video) return;
+          var card = video.closest('.video-card');
+          if (!card) return;
+          var info = card.querySelector('.video-info');
+          if (!info) return;
+
+          // Prefer existing description element if present.
+          var p = info.querySelector('p.video-description');
+          if (!p) {
+            p = document.createElement('p');
+            p.className = 'video-description';
+            var title = info.querySelector('.video-title');
+            if (title && title.nextSibling) info.insertBefore(p, title.nextSibling);
+            else info.appendChild(p);
+          }
+
+          p.textContent = text;
+        } catch(e) {}
+      }
+
+      function run(){
+        Object.keys(MAP).forEach(function(src){
+          setDescription(src, MAP[src]);
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', run, { once: true });
+      } else {
+        run();
+      }
+    })();
+  </script>
   <!-- 3D Model Viewer Web Component -->
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <script>
@@ -949,7 +1003,175 @@
     }
   </style>
   <style id="video-info-center">
-    /* Center video titles and descriptions under each video card */
+    /* Minimal: only ensure per-video description isn't hidden.
+       Avoid overriding Engineering in Motion layout/grid. */
+    #videos .video-info .video-description {
+      display: block !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      height: auto !important;
+      max-height: none !important;
+    }
+
+    /* Ensure the card/grid doesn't clip the description */
+    #videos .videos-showcase,
+    #videos .videos-grid,
+    #videos .video-card,
+    #videos .video-info,
+    #videos .video-player {
+      overflow: visible !important;
+    }
+
+    /* Force cards to expand to fit content */
+    #videos .video-card {
+      height: auto !important;
+      max-height: none !important;
+      min-height: 0 !important;
+    }
+
+    /* Force E/F/G cards to appear last (move to last row) */
+    #videos .videos-grid { display: flex !important; flex-wrap: wrap !important; gap: 2rem !important; }
+    #videos .videos-grid > .video-card { flex: 1 1 calc(33.333% - 2rem) !important; max-width: calc(33.333% - 2rem) !important; }
+    @media (max-width: 900px) {
+      #videos .videos-grid > .video-card { flex: 1 1 100% !important; max-width: 100% !important; }
+    }
+    #videos .videos-grid > .video-card:has(.video-title:is(:-webkit-any(:not(*)), *)) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:-webkit-any(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title) { order: 0; }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(:not(*)))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    /* Put E/F/G at the end */
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(:not(*)))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    /* Final ordering selectors */
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(:not(*))) { }
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    /* Real rules */
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { order: 0; }
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:where(*)) { }
+
+    /* Put E/F/G last using :has */
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(E))) { }
+    #videos .videos-grid > .video-card:has(.video-title) { }
+    #videos .videos-grid > .video-card:has(.video-title:is(:where(*))) { }
+
+    #videos .videos-grid > .video-card:has(.video-title:contains("E")) { order: 99; }
+    #videos .videos-grid > .video-card:has(.video-title:contains("F")) { order: 99; }
+    #videos .videos-grid > .video-card:has(.video-title:contains("G")) { order: 99; }
+
+    /* Force video descriptions to be visible (prevents any conflicting CSS from hiding them) */
+    #videos .video-info .video-description {
+      display: block !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      max-height: none !important;
+      height: auto !important;
+      overflow: visible !important;
+    }
+
     #videos .video-info,
     #engineering-in-motion .video-info,
     #motion .video-info,
@@ -1121,68 +1343,7 @@
     }
   </style>
 
-  <script id="reorder-sections-mobile-only-js">
-    // نقل قسم 3D Design Models ليكون بعد معلومات الاتصال على الهاتف المحمول فقط
-    (function(){
-      function reorderSections(){
-        // تحقق من حجم الشاشة - فقط على الهاتف المحمول (أقل من 901px)
-        var isMobile = window.matchMedia('(max-width: 900px)').matches;
-        
-        if (!isMobile) {
-          console.log('Desktop mode - no reordering');
-          return;
-        }
-        
-        console.log('Mobile mode - attempting reorder');
-        
-        var models3d = document.getElementById('models-3d');
-        var contacts = document.querySelectorAll('#contact');
-        
-        console.log('Found models-3d:', !!models3d);
-        console.log('Found contacts:', contacts.length);
-        
-        if (!models3d || !contacts.length) {
-          console.log('Missing elements, aborting');
-          return;
-        }
-        
-        // استهدف القسم الأول من contact
-        var firstContact = contacts[0];
-        var parent = firstContact.parentNode;
-        
-        console.log('Parent element:', parent ? parent.tagName : 'null');
-        
-        if (!parent) {
-          console.log('No parent found');
-          return;
-        }
-        
-        // نقل models-3d بعد contact (تحته) فقط على الهاتف
-        try {
-          var nextElement = firstContact.nextSibling;
-          parent.insertBefore(models3d, nextElement);
-          console.log('✅ Successfully moved 3D section after contact');
-        } catch(e) {
-          console.error('❌ Error moving element:', e);
-        }
-      }
-      
-      // تشغيل الدالة عند تحميل الصفحة
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-          setTimeout(reorderSections, 100);
-        }, { once: true });
-      } else {
-        setTimeout(reorderSections, 100);
-      }
-      
-      // تشغيل إضافي عند تحميل كامل الصفحة
-      window.addEventListener('load', function() {
-        setTimeout(reorderSections, 100);
-      }, { once: true });
-    })();
-  </script>
-
+  
   <script id="gallery-scroll-lock-bridge">
     // Bridge scroll-lock to the gallery state without changing gallery content/design.
     // Uses the standard "body position:fixed" technique to prevent scroll and preserve position.
@@ -1301,10 +1462,8 @@
           var target = document.getElementById('portfolio');
           if (!link || !target) return;
           link.addEventListener('click', function(e){
-            // Capture early, cancel everything else
             try { e.preventDefault(); e.stopImmediatePropagation(); } catch(_){}
 
-            // Disable any smooth behavior instantly
             var docEl = document.documentElement;
             var body = document.body;
             var prevHtml = docEl.style.scrollBehavior;
@@ -1312,24 +1471,15 @@
             docEl.style.scrollBehavior = 'auto';
             body.style.scrollBehavior = 'auto';
 
-            // Compute precise top with nav offset if available
             var rect = target.getBoundingClientRect();
             var y0 = (window.pageYOffset || docEl.scrollTop || 0) + rect.top;
             var navVar = getComputedStyle(docEl).getPropertyValue('--nav-dyn-h');
             var offset = Math.max(0, toPx(navVar));
             var y = Math.max(0, y0 - offset);
 
-            // Immediate jump to target
-            try {
-              window.scrollTo(0, y);
-            } catch(_) {
-              try { target.scrollIntoView(true); } catch(__){}
-            }
+            try { window.scrollTo(0, y); } catch(_) { try { target.scrollIntoView(true); } catch(__){} }
+            try { history.replaceState(null, '', '#portfolio'); } catch(_){ }
 
-            // Update URL without triggering browser auto scroll
-            try { history.replaceState(null, '', '#portfolio'); } catch(_){ /* no-op */ }
-
-            // Restore previous styles on next tick
             setTimeout(function(){
               docEl.style.scrollBehavior = prevHtml || '';
               body.style.scrollBehavior = prevBody || '';
@@ -1342,6 +1492,94 @@
       } else {
         bind();
       }
+    })();
+  </script>
+
+  <script id="nav-anchor-scroll-fix">
+    // Unified, professional anchor navigation for navbar links.
+    // Fixes wrong jumps by overriding default hash scrolling and scrolling to the exact target with nav offset.
+    (function(){
+      'use strict';
+
+      function toPx(val){
+        var n = parseFloat(String(val||'').replace('px','').trim());
+        return isNaN(n) ? 0 : n;
+      }
+
+      function getNavOffset(){
+        try {
+          var navVar = getComputedStyle(document.documentElement).getPropertyValue('--nav-dyn-h');
+          var offset = toPx(navVar);
+          if (offset > 0) return offset;
+        } catch(e){}
+        try {
+          var nav = document.querySelector('.nav');
+          if (nav) return Math.ceil(nav.getBoundingClientRect().height);
+        } catch(e){}
+        return 0;
+      }
+
+      function scrollToId(id){
+        try {
+          var el = document.getElementById(id);
+          if (!el) return false;
+          var docEl = document.documentElement;
+          var y0 = (window.pageYOffset || docEl.scrollTop || 0) + el.getBoundingClientRect().top;
+          var y = Math.max(0, y0 - getNavOffset());
+          window.scrollTo({ top: y, left: 0, behavior: 'smooth' });
+          return true;
+        } catch(e){
+          return false;
+        }
+      }
+
+      function onNavClick(e){
+        try {
+          var a = e.target && (e.target.closest ? e.target.closest('a[href^="#"]') : null);
+          if (!a) return;
+
+          var href = a.getAttribute('href') || '';
+          if (!href || href === '#' || href.indexOf('#') !== 0) return;
+
+          var id = href.slice(1);
+          if (!id) return;
+
+          var target = document.getElementById(id);
+          if (!target) return;
+
+          // IMPORTANT: stop all other click handlers + stop native jump.
+          e.preventDefault();
+          try { e.stopImmediatePropagation(); } catch(_) {}
+          try { e.stopPropagation(); } catch(_) {}
+
+          // Update URL without triggering native jump.
+          try { history.pushState(null, '', '#' + id); } catch(_){ }
+
+          // If some other handler still moved the page, re-apply the correct scroll.
+          scrollToId(id);
+          setTimeout(function(){ scrollToId(id); }, 0);
+          setTimeout(function(){ scrollToId(id); }, 50);
+        } catch(_){ }
+      }
+
+      function bind(){
+        // Capture phase to beat any other handlers.
+        document.addEventListener('click', function(e){
+          var nav = document.querySelector('.nav');
+          if (!nav) return;
+          if (!nav.contains(e.target)) return;
+          onNavClick(e);
+        }, true);
+
+        // Also handle direct hash loads (refresh on #section)
+        try {
+          var hash = (location.hash || '').replace('#','');
+          if (hash) setTimeout(function(){ scrollToId(hash); }, 0);
+        } catch(e){}
+      }
+
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind, { once: true });
+      else bind();
     })();
   </script>
   <script id="mobile-portfolio-title-swap">
@@ -5721,6 +5959,28 @@
     .videos-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    /* Ensure all Engineering in Motion videos have identical dimensions */
+    #videos .video-card,
+    #videos .video-player {
+      width: 100%;
+    }
+
+    #videos .video-player {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      height: 100%;
+      object-fit: contain;
+      background: #000;
+      display: block;
+    }
+
+    #videos .video-card {
+      overflow: hidden;
+    }
+      grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
       position: relative;
       z-index: 1;
@@ -7069,6 +7329,7 @@
       </div>
       <ul class="nav-links">
         <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#models-3d">3D Models</a></li>
         <li><a href="#videos">Videos</a></li>
         <li><a href="#chassis">Chassis</a></li>
         <li><a href="#about">About</a></li>
@@ -7502,6 +7763,99 @@
       </div>
       <div class="videos-showcase animate-on-scroll">
         <div class="videos-grid">
+          <!-- New videos (E, F, G) -->
+          <div class="video-card animate-slide-left">
+            <div class="auto-play-indicator">AUTO-PLAY</div>
+            <video class="video-player" muted loop preload="metadata">
+              <source src="Videos/E.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+                        <div class="video-overlay">
+              <div class="play-button">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                  <circle cx="30" cy="30" r="29" stroke="white" stroke-width="2"/>
+                  <polygon points="24,18 24,42 42,30" fill="white"/>
+                </svg>
+              </div>
+            </div>
+            <div class="video-controls">
+              <button class="control-btn mute-btn" title="Mute">🔊</button>
+              <button class="control-btn fullscreen-btn" title="Fullscreen">⛶</button>
+            </div>
+            <div class="video-info">
+              <h3 class="video-title">E</h3>
+              <div class="video-description" style="display:block !important; opacity:1 !important; visibility:visible !important;">Sheet Metal</div>
+              <p class="video-description">Sheet Metal</p>
+              <p class="video-description">Sheet Metal</p>
+              <div class="video-stats">
+                <div class="video-stat"><div class="video-stat-icon"></div><span>Design</span></div>
+                <div class="video-stat"><div class="video-stat-icon"></div><span>Motion</span></div>
+                <div class="video-stat"><div class="video-stat-icon"></div><span>Video</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="video-card animate-slide-right">
+            <div class="auto-play-indicator">AUTO-PLAY</div>
+            <video class="video-player" muted loop preload="metadata">
+              <source src="Videos/F.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+                        <div class="video-overlay">
+              <div class="play-button">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                  <circle cx="30" cy="30" r="29" stroke="white" stroke-width="2"/>
+                  <polygon points="24,18 24,42 42,30" fill="white"/>
+                </svg>
+              </div>
+            </div>
+            <div class="video-controls">
+              <button class="control-btn mute-btn" title="Mute">🔊</button>
+              <button class="control-btn fullscreen-btn" title="Fullscreen">⛶</button>
+            </div>
+            <div class="video-info">
+              <h3 class="video-title">F</h3>
+              <div class="video-description" style="display:block !important; opacity:1 !important; visibility:visible !important;">Simulation Plastic</div>
+              <p class="video-description">Simulation Plastic</p>
+              <p class="video-description">Simulation Plastic</p>
+              <div class="video-stats">
+                <div class="video-stat"><div class="video-stat-icon"></div><span>Design</span></div>
+                <div class="video-stat"><div class="video-stat-icon"></div><span>Motion</span></div>
+                <div class="video-stat"><div class="video-stat-icon"></div><span>Video</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="video-card animate-slide-left">
+            <div class="auto-play-indicator">AUTO-PLAY</div>
+            <video class="video-player" muted loop preload="metadata">
+              <source src="Videos/G.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+                        <div class="video-overlay">
+              <div class="play-button">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                  <circle cx="30" cy="30" r="29" stroke="white" stroke-width="2"/>
+                  <polygon points="24,18 24,42 42,30" fill="white"/>
+                </svg>
+              </div>
+            </div>
+            <div class="video-controls">
+              <button class="control-btn mute-btn" title="Mute">🔊</button>
+              <button class="control-btn fullscreen-btn" title="Fullscreen">⛶</button>
+            </div>
+            <div class="video-info">
+              <h3 class="video-title">G</h3>
+              <div class="video-description" style="display:block !important; opacity:1 !important; visibility:visible !important;">Simulation Plastic</div>
+              <p class="video-description">Simulation Plastic</p>
+              <p class="video-description">Simulation Plastic</p>
+              <div class="video-stats">
+                <div class="video-stat"><div class="video-stat-icon"></div><span>Design</span></div>
+                <div class="video-stat"><div class="video-stat-icon"></div><span>Motion</span></div>
+                <div class="video-stat"><div class="video-stat-icon"></div><span>Video</span></div>
+              </div>
+            </div>
+          </div>
           <div class="video-card animate-slide-left">
             <div class="auto-play-indicator">AUTO-PLAY</div>
             <div class="video-container">
